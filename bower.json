@@ -1,0 +1,13 @@
+{
+  "name": "rmtest",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "toiletpatrol <toiletpatrol@ya.ru>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "dependencies": {
+    "jquery-ui": "^1.12.1"
+  }
+}

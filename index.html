@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hey</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/controls.css">
+</head>
+<body>
+  <div class="app">
+    <h1 id="logo">Hey!</h1>
+    
+    <div class="controls">
+      <button class="controls_add-photo">Добавить фото</button>
+      <button class="controls_add-video">Добавить видео</button>
+    </div>
+
+    <div class="canvas"></div>
+  </div>
+
+  <script src="node_modules/jquery/dist/jquery.js"></script>
+  <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+  <script src="node_modules/underscore/underscore.js"></script>
+  <script src="node_modules/backbone/backbone.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/views/app-view.js"></script>
+  <script src="js/views/box.js"></script>
+  <script src="js/views/image.js"></script>
+  <script src="js/views/video.js"></script>
+  <script src="js/models/box.js"></script>
+  <script src="js/collections/boxes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
