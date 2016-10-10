@@ -16,15 +16,12 @@ var app = app || {};
     render: function() {},
 
     calcCanvasHeight: function() {
-      this.canvas.css({height: this.collection.bottom()});
+      this.canvas.css({ height: this.collection.bottom() + NEW_BOX_PADDING });
     },
 
     createBoxView: function() {
       var left = this.$el.width() / 2 - DEFAULT_BOX_WIDTH / 2;
-      var top = this.collection.bottom();
-
-      // Add padding if new top is larger than 0
-      top = top && top + NEW_BOX_PADDING;
+      var top = this.collection.bottom() + NEW_BOX_PADDING;
 
       var box = new app.BoxModel({
         left: left,
@@ -58,6 +55,12 @@ var app = app || {};
       img.render();
       
       boxView.appendView(img);
+
+      img.on('imageSelected', function() {
+        boxView.enableResize();
+        boxView.enableDrag();
+        boxView.fitToContent();
+      });
     },
 
     onAddVideo: function() {
@@ -67,6 +70,12 @@ var app = app || {};
       video.render();
       
       boxView.appendView(video);
+
+      video.on('videoSelected', function() {
+        boxView.enableResize();
+        boxView.enableDrag();
+        boxView.fitToContent();
+      });
     }
   });
 

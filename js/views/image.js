@@ -29,6 +29,8 @@ var app = app || {};
           that.$img = $('<img alt="your image" />')
             .attr('src', e.target.result)
             .appendTo(that.$el);
+
+          that.trigger('imageSelected');
         };
 
         reader.readAsDataURL(input.files[0]);

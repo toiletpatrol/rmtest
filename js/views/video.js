@@ -24,11 +24,18 @@ var app = app || {};
         return (match && match[7].length == 11) ? match[7] : false;
       }(this.$input.val());
 
-      var url = VIDEO_URL_TEMPLATE.replace('ID', id);
+      var url = VIDEO_URL_TEMPLATE.replace('ID', id); 
+      var that = this;
+      
+      this.$img = $('<img alt="" />').appendTo(this.$el);
 
-      this.$img = $('<img alt="" />').attr('src', url).appendTo(this.$el);
-
-      this.$form.remove();
+      var downloadingImage = new Image();
+      downloadingImage.onload = function(){
+        that.$form.remove();
+        that.$img.attr('src', this.src);
+        that.trigger('videoSelected');
+      };
+      downloadingImage.src = url;
     }
-  });
+  }, Backbone.Events);
 })();
