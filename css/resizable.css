@@ -1,0 +1,35 @@
+.resize__ne,
+.resize__nw,
+.resize__se,
+.resize__sw
+ {
+  display: block;
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  background: black;
+}
+
+.resize__ne {
+  cursor: ne-resize;
+  right: -8px;
+  top: -8px;
+}
+
+.resize__nw {
+  cursor: nw-resize;
+  left: -8px;
+  top: -8px;
+}
+
+.resize__se {
+  cursor: se-resize;
+  right: -8px;
+  top: calc(100% - 8px);
+}
+
+.resize__sw {
+  cursor: sw-resize;
+  left: -8px;
+  top: calc(100% - 8px);
+}

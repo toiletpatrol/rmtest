@@ -5,7 +5,7 @@ var app = app || {};
 
   app.ImageView = Backbone.View.extend({
     tagName:  'div',
-    className: 'box-image',
+    className: 'image',
 
     render: function() {
       this.$form = $('<div class="form" />').appendTo(this.$el);

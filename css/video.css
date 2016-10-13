@@ -1,0 +1,42 @@
+.video {
+  text-align: left; 
+}
+
+.video .form {
+  padding: 20px;
+  text-align: center;
+}
+
+.video_loaded {
+  width: 100%;
+  height: 100%;
+}
+
+.video input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.video button {
+  box-sizing: border-box;
+  padding: 5px 20px;
+  background: #000; 
+  color: white;
+  border: none;
+}
+
+.video button:hover {
+  background: #222;
+}
+
+.video button:hover {
+  background: #000;
+}
+
+.video img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

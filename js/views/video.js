@@ -5,7 +5,8 @@ var app = app || {};
 
   app.VideoView = Backbone.View.extend({
     tagName:  'div',
-    className: 'box-video',
+    className: 'video',
+    classNameLoaded: 'video_loaded',
 
     render: function() {
       this.$form = $('<div class="form" />').appendTo(this.$el); 
@@ -30,12 +31,15 @@ var app = app || {};
       this.$img = $('<img alt="" />').appendTo(this.$el);
 
       var downloadingImage = new Image();
+      
       downloadingImage.onload = function(){
         that.$form.remove();
         that.$img.attr('src', this.src);
         that.trigger('videoSelected');
+        that.$el.addClass(that.classNameLoaded);
       };
+      
       downloadingImage.src = url;
     }
-  }, Backbone.Events);
+  });
 })();

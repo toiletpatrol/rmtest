@@ -1,0 +1,9 @@
+.image .form {
+  padding: 20px;
+  text-align: center;
+}
+
+.image img {
+  width: 100%;
+  display: block;
+}

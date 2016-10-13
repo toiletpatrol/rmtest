@@ -4,19 +4,25 @@ var app = app || {};
   'use strict';
 
   app.AppView = Backbone.View.extend({
-    el: '.app',
+    tagName: 'div',
+    className: 'app',
     
     initialize: function() {
       this.collection = new app.BoxesCollection();
       this.collection.on('change', this.calcCanvasHeight.bind(this));
-      this.canvas = this.$el.find('.canvas');
+      
       this.render();
     },
 
-    render: function() {},
+    render: function() {
+      this.$el.prependTo('body');
+      var $controls = _.template($('#controls').html());
+      this.$canvas = $('<div class="canvas" />');
+      this.$el.append($controls).append(this.$canvas);
+    },
 
     calcCanvasHeight: function() {
-      this.canvas.css({ height: this.collection.bottom() + NEW_BOX_PADDING });
+      this.$canvas.css({ height: this.collection.bottom() + NEW_BOX_PADDING });
     },
 
     createBoxView: function() {
@@ -34,7 +40,7 @@ var app = app || {};
         model: box
       });
 
-      this.canvas.append(boxView.render());
+      this.$canvas.append(boxView.render());
       this.calcCanvasHeight();
 
       // Scroll to new box
@@ -57,7 +63,7 @@ var app = app || {};
       boxView.appendView(img);
 
       img.on('imageSelected', function() {
-        boxView.enableResize();
+        boxView.enableResize({keepRatio: true});
         boxView.enableDrag();
         boxView.fitToContent();
       });

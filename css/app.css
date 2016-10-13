@@ -1,3 +1,9 @@
+@import "controls.css";
+@import "resizable.css";
+@import "video.css";
+@import "image.css";
+@import "box.css";
+
 * {
   padding: 0;
   margin: 0;
@@ -15,68 +21,5 @@ body {
 .canvas {
   position: relative;
   box-sizing: border-box;
-}
-
-.box {
-  position: absolute !important;
-  background: #eee;
-}
-
-.box .form {
-  padding: 20px;
-  text-align: center;
-}
-
-.box_resize {
-  display: block;
-  position: absolute;
-  cursor: ne-resize;
-  right: -8px;
-  top: -8px;
-  height: 16px;
-  width: 16px;
-  background: black;
-}
-
-/* Image */
-.box-image {
-  
-}
-
-.box-image img {
-  width: 100%;
-  display: block;
-}
-
-/* Video */
-.box-video {
-  text-align: left;
-}
-
-.box-video input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 5px;
-  margin-bottom: 10px;
-}
-
-.box-video button {
-  box-sizing: border-box;
-  padding: 5px 20px;
-  background: #000; 
-  color: white;
-  border: none;
-}
-
-.box-video button:hover {
-  background: #222;
-}
-
-.box-video button:hover {
-  background: #000;
-}
-
-.box-video img {
-  width: 100%;
-  display: block;
+  transition: height 300ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
