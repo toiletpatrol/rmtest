@@ -50,19 +50,20 @@ var app = app || {};
     },
 
     events: {
-      'click .controls_add-photo': 'onAddPhoto',
+      'click .controls_add-photo': 'onAddImage',
       'click .controls_add-video': 'onAddVideo'
     },
 
-    onAddPhoto: function() {
-      var boxView = this.createBoxView();
-      var img = new app.ImageView();
-
-      img.render();
+    onAddImage: function() {
+      var imgView = new app.ImageView({
+        model: new app.ImageModel()
+      });
+      imgView.render();
       
-      boxView.appendView(img);
+      var boxView = this.createBoxView();
+      boxView.setNestedView(imgView);
 
-      img.on('imageSelected', function() {
+      boxView.listenTo(imgView, 'imageLoaded', function(src) {
         boxView.enableResize({keepRatio: true});
         boxView.enableDrag();
         boxView.fitToContent();
@@ -75,7 +76,7 @@ var app = app || {};
 
       video.render();
       
-      boxView.appendView(video);
+      boxView.setNestedView(video);
 
       video.on('videoSelected', function() {
         boxView.enableResize();

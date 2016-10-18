@@ -27,7 +27,8 @@ var app = app || {};
       });
     },
 
-    appendView: function(view) {
+    setNestedView: function(view) {
+      this.$nestedEl && this.$nestedEl.remove();
       this.$el.append(view.$el);
       this.$nestedEl = view.$el;
     },

@@ -6,32 +6,29 @@ var app = app || {};
   app.ImageView = Backbone.View.extend({
     tagName:  'div',
     className: 'image',
+    template: _.template($('#image-view').html()),
 
     render: function() {
-      this.$form = $('<div class="form" />').appendTo(this.$el);
-      this.$input = $('<input type="file" />').appendTo(this.$form);
+      return this.$el.html(this.template({
+        model: this.model
+      }));
     },
 
     events: {
       'change input': 'onChange'
     },
 
-    onChange: function() {
-      var that = this;
-      var input = this.$input.get(0);
+    onChange: function(event) {
+      var input = event.target;
 
       if (input.files && input.files[0]) {
         var reader = new FileReader();
 
-        reader.onload = function (e) {
-          that.$form.remove();
-          
-          that.$img = $('<img alt="your image" />')
-            .attr('src', e.target.result)
-            .appendTo(that.$el);
-
-          that.trigger('imageSelected');
-        };
+        reader.onload = (function (e) {
+          this.model.set({ src: e.target.result });
+          this.render();
+          this.trigger('imageLoaded');
+        }).bind(this);
 
         reader.readAsDataURL(input.files[0]);
       }
