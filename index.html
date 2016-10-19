@@ -28,6 +28,17 @@
     <% }%>
   </script>
 
+  <script type="text/template" id="video-view">
+    <% if (preview) { %>
+      <img src="<%= preview %>" alt="" />
+    <% } else { %>
+      <div class="video__load-form">
+        <input type="text" value="https://www.youtube.com/watch?v=ScK1_uPz5_o" />
+        <button>OK</button>
+      </div>
+    <% }%>
+  </script>
+
   <script src="js/config.js"></script>
   <script src="js/views/app-view.js"></script>
   <script src="js/views/resizable.js"></script>
@@ -36,6 +47,7 @@
   <script src="js/views/video.js"></script>
   <script src="js/models/box.js"></script>
   <script src="js/models/image.js"></script>
+  <script src="js/models/video.js"></script>
   <script src="js/collections/boxes.js"></script>
   <script src="js/app.js"></script>
 </body>

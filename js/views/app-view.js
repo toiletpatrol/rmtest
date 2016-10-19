@@ -72,7 +72,9 @@ var app = app || {};
 
     onAddVideo: function() {
       var boxView = this.createBoxView();
-      var video = new app.VideoView();
+      var video = new app.VideoView({
+        model: new app.VideoModel()
+      });
 
       video.render();
       
