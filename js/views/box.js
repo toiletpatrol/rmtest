@@ -6,11 +6,12 @@ var app = app || {};
   app.BoxView = app.ResizableView.extend({
     tagName:  'div',
     className: 'box',
+    template: _.template($('#box-view').html()),
 
     initialize: function() {},
 
     render: function() {
-      return this.$el.css({
+      return this.$el.html(this.template()).css({
         height: this.model.get('height') + 'px',
         width: this.model.get('width') + 'px',
         left: this.model.get('left') + 'px',
@@ -49,6 +50,15 @@ var app = app || {};
         cancel: app.ResizableView.commonControlSelector,
         stop: this.updateModel.bind(this)
       });
+    },
+
+    events: _.extend({}, app.ResizableView.prototype.events, {
+      'click .box__close': 'close'
+    }),
+
+    close: function() {
+      this.trigger('close');
     }
+
   });
 })();

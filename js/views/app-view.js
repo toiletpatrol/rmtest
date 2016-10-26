@@ -40,6 +40,8 @@ var app = app || {};
         model: box
       });
 
+      boxView.once('close', this.destroyBoxView.bind(this, boxView, box));
+
       this.$canvas.append(boxView.render());
       this.calcCanvasHeight();
 
@@ -47,6 +49,13 @@ var app = app || {};
       $('html, body').animate({scrollTop: this.collection.bottom()});
 
       return boxView;
+    },
+
+    destroyBoxView: function(boxView, box) {
+      boxView.remove();
+      box.destroy();
+      
+      this.calcCanvasHeight();
     },
 
     events: {
@@ -63,7 +72,7 @@ var app = app || {};
       var boxView = this.createBoxView();
       boxView.setNestedView(imgView);
 
-      boxView.listenTo(imgView, 'imageLoaded', function(src) {
+      boxView.listenToOnce(imgView, 'imageLoaded', function() {
         boxView.enableResize({keepRatio: true});
         boxView.enableDrag();
         boxView.fitToContent();
@@ -71,16 +80,15 @@ var app = app || {};
     },
 
     onAddVideo: function() {
-      var boxView = this.createBoxView();
-      var video = new app.VideoView({
+      var videoView = new app.VideoView({
         model: new app.VideoModel()
       });
-
-      video.render();
+      videoView.render();
       
-      boxView.setNestedView(video);
+      var boxView = this.createBoxView();
+      boxView.setNestedView(videoView);
 
-      video.on('videoSelected', function() {
+      boxView.listenToOnce(videoView, 'videoSelected', function() {
         boxView.enableResize();
         boxView.enableDrag();
         boxView.fitToContent();
