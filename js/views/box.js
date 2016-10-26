@@ -8,14 +8,19 @@ var app = app || {};
     className: 'box',
     template: _.template($('#box-view').html()),
 
-    initialize: function() {},
+    initialize: function() {
+      this.listenTo(this.model, 'change:zIndex', (function() {
+        this.$el.css('z-index', this.model.get('zIndex'));
+      }).bind(this))
+    },
 
     render: function() {
       return this.$el.html(this.template()).css({
         height: this.model.get('height') + 'px',
         width: this.model.get('width') + 'px',
         left: this.model.get('left') + 'px',
-        top: this.model.get('top') + 'px'
+        top: this.model.get('top') + 'px',
+        'z-index': this.model.get('zIndex')
       });
     },
 
@@ -48,8 +53,9 @@ var app = app || {};
     enableDrag: function() {
       this.$el.draggable({ 
         cancel: app.ResizableView.commonControlSelector,
-        stop: this.updateModel.bind(this)
-      });
+        stop: this.updateModel.bind(this),
+        start: (function() { this.trigger('dragStart'); }).bind(this)
+      }).on('click', (function() { this.trigger('dragStart'); }).bind(this));
     },
 
     events: _.extend({}, app.ResizableView.prototype.events, {

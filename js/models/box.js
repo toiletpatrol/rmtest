@@ -10,7 +10,8 @@ var app = app || {};
       width: DEFAULT_BOX_WIDTH,
       height: DEFAULT_BOX_HEIGHT,
       left: 0,
-      top: 0
+      top: 0,
+      zIndex: 0
     },
 
     bottom: function() {

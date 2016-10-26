@@ -31,7 +31,8 @@ var app = app || {};
 
       var box = new app.BoxModel({
         left: left,
-        top: top
+        top: top,
+        zIndex: this.collection.maxIndex() + 1
       });
       
       this.collection.add(box);
@@ -40,7 +41,8 @@ var app = app || {};
         model: box
       });
 
-      boxView.once('close', this.destroyBoxView.bind(this, boxView, box));
+      boxView.once('close', this.destroyBoxView.bind(this, boxView));
+      boxView.on('dragStart', this.moveBoxToTop.bind(this, boxView));
 
       this.$canvas.append(boxView.render());
       this.calcCanvasHeight();
@@ -52,10 +54,18 @@ var app = app || {};
     },
 
     destroyBoxView: function(boxView, box) {
+      boxView.model.destroy();
       boxView.remove();
-      box.destroy();
       
       this.calcCanvasHeight();
+    },
+
+    moveBoxToTop: function(boxView) {
+      var max = this.collection.maxIndex();
+      
+      if (boxView.model.get('zIndex') < max) {
+        boxView.model.set('zIndex', max + 1);
+      }
     },
 
     events: {
