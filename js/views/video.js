@@ -15,11 +15,23 @@ var app = app || {};
     },
 
     events: {
-      'click button': 'buttonPressed'
+      'click button': 'buttonPressed',
+      'change input': 'resetErrorState',
+      'keyup input': 'resetErrorState'
     },
 
     buttonPressed: function() {
-      this.model.set('src', this.$el.find('input').val());
+      var input =  this.$el.find('input');
+
+      if (input.val()) {
+        this.loadPreview(input.val());
+      } else {
+        input.addClass('error').focus();
+      }
+    },
+
+    loadPreview: function(src) {
+      this.model.set('src', src);
 
       var url = this.model.getPreview();
       var downloadingImage = new Image();
@@ -30,6 +42,10 @@ var app = app || {};
       }.bind(this);
       
       downloadingImage.src = url;
+    },
+
+    resetErrorState: function() {
+      this.$el.find('input').removeClass('error');
     }
   });
 })();
