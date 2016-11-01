@@ -1,9 +1,9 @@
-.image img {
+.image {
   width: 100%;
   display: block;
 }
 
-.image__upload-form {
+.image-upload {
   padding: 20px;
   text-align: center;
 }

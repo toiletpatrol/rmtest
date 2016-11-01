@@ -11,17 +11,25 @@ var app = app || {};
     initialize: function() {
       this.listenTo(this.model, 'change:zIndex', (function() {
         this.$el.css('z-index', this.model.get('zIndex'));
-      }).bind(this))
+      }).bind(this));
+
+
     },
 
     render: function() {
-      return this.$el.html(this.template()).css({
+      this.$el.html(this.template()).css({
         height: this.model.get('height') + 'px',
         width: this.model.get('width') + 'px',
         left: this.model.get('left') + 'px',
         top: this.model.get('top') + 'px',
         'z-index': this.model.get('zIndex')
       });
+
+      if (this.nestedView) {
+        this.$el.append(this.nestedView.$el);
+      }
+
+      return this;
     },
 
     updateModel: function() {
@@ -34,20 +42,9 @@ var app = app || {};
     },
 
     setNestedView: function(view) {
-      this.$nestedEl && this.$nestedEl.remove();
-      this.$el.append(view.$el);
-      this.$nestedEl = view.$el;
-    },
-
-    fitToContent: function() {
-      if (this.$nestedEl) {
-        this.$el.css({
-          width: this.$nestedEl.width(),
-          height: this.$nestedEl.height()
-        });
-
-        this.updateModel();
-      }
+      this.nestedView && this.nestedView.remove();
+      this.nestedView = view;
+      this.render();
     },
 
     enableDrag: function() {

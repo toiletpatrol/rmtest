@@ -18,25 +18,13 @@
     </div>
   </script>
 
-  <script type="text/template" id="image-view">
-    <% if (model.get('src')) { %>
-      <img src="<%= model.get('src') %>" alt="<%= model.get('alt') %>" />
-    <% } else { %>
-      <div class="image__upload-form">
-        <input type="file" />
-      </div>
-    <% }%>
+  <script type="text/template" id="image-upload-view">
+    <input type="file" />
   </script>
 
-  <script type="text/template" id="video-view">
-    <% if (preview) { %>
-      <img src="<%= preview %>" alt="" />
-    <% } else { %>
-      <div class="video__load-form">
-        <input type="text" value="https://www.youtube.com/watch?v=ScK1_uPz5_o" />
-        <button>OK</button>
-      </div>
-    <% }%>
+  <script type="text/template" id="video-load-view">
+    <input type="text" value="https://www.youtube.com/watch?v=ScK1_uPz5_o" />
+    <button>OK</button>
   </script>
 
   <script type="text/template" id="box-view">
@@ -47,7 +35,9 @@
   <script src="js/views/app-view.js"></script>
   <script src="js/views/resizable.js"></script>
   <script src="js/views/box.js"></script>
+  <script src="js/views/image-upload.js"></script>
   <script src="js/views/image.js"></script>
+  <script src="js/views/video-load.js"></script>
   <script src="js/views/video.js"></script>
   <script src="js/models/box.js"></script>
   <script src="js/models/image.js"></script>

@@ -44,7 +44,9 @@ var app = app || {};
       boxView.once('close', this.destroyBoxView.bind(this, boxView));
       boxView.on('dragStart', this.moveBoxToTop.bind(this, boxView));
 
-      this.$canvas.append(boxView.render());
+      boxView.render();
+
+      this.$canvas.append(boxView.$el);
       this.calcCanvasHeight();
 
       // Scroll to new box
@@ -53,7 +55,7 @@ var app = app || {};
       return boxView;
     },
 
-    destroyBoxView: function(boxView, box) {
+    destroyBoxView: function(boxView) {
       boxView.model.destroy();
       boxView.remove();
       
@@ -74,35 +76,61 @@ var app = app || {};
     },
 
     onAddImage: function() {
-      var imgView = new app.ImageView({
-        model: new app.ImageModel()
-      });
-      imgView.render();
+      var uploadView = new app.ImageUploadView();
+      uploadView.render();
       
       var boxView = this.createBoxView();
-      boxView.setNestedView(imgView);
+      boxView.setNestedView(uploadView);
 
-      boxView.listenToOnce(imgView, 'imageLoaded', function() {
-        boxView.enableResize({keepRatio: true});
-        boxView.enableDrag();
-        boxView.fitToContent();
+      boxView.listenToOnce(uploadView, 'imageLoaded', this.onImageLoaded.bind(this, boxView));
+    },
+
+    onImageLoaded: function(boxView, src) {
+      var imgView = new app.ImageView({
+        model: new app.ImageModel({
+          src: src
+        })
       });
+
+      imgView.render();
+      
+      boxView.model.set('width', imgView.width());
+      boxView.model.set('height', imgView.height());
+      
+      boxView.setNestedView(imgView);
+      boxView.render();
+
+      boxView.enableResize({keepRatio: true});
+      boxView.enableDrag();
     },
 
     onAddVideo: function() {
-      var videoView = new app.VideoView({
-        model: new app.VideoModel()
-      });
-      videoView.render();
+      var videoLoadView = new app.VideoLoadView();
+      videoLoadView.render();
       
       var boxView = this.createBoxView();
-      boxView.setNestedView(videoView);
+      boxView.setNestedView(videoLoadView);
 
-      boxView.listenToOnce(videoView, 'videoSelected', function() {
-        boxView.enableResize();
-        boxView.enableDrag();
-        boxView.fitToContent();
+      boxView.listenToOnce(videoLoadView, 'thumbLoaded', this.onVideoThumbLoaded.bind(this, boxView));
+    },
+
+    onVideoThumbLoaded: function(boxView, src) {
+      var videoView = new app.VideoView({
+        model: new app.VideoModel({
+          src: src
+        })
       });
+
+      videoView.render();
+
+      boxView.model.set('width', videoView.width());
+      boxView.model.set('height', videoView.height());
+
+      boxView.setNestedView(videoView);
+      boxView.render();
+
+      boxView.enableResize({keepRatio: false});
+      boxView.enableDrag();
     }
   });
 

@@ -7,18 +7,16 @@ var app = app || {};
     defaults: {
       width: 0,
       height: 0
-    },
+    }
+  }, {
+    getThumbURL: function(videoURL) {    
+      var id = function(url) {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        return (match && match[7].length == 11) ? match[7] : false;
+      }(videoURL);
 
-    getPreview: function() {
-      if (this.get('src')) {
-        var id = function(url) {
-          var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-          var match = url.match(regExp);
-          return (match && match[7].length == 11) ? match[7] : false;
-        }(this.get('src'));
-
-        return VIDEO_URL_TEMPLATE.replace('ID', id);
-      }
+      return VIDEO_URL_TEMPLATE.replace('ID', id);
     }
   });
 })();
