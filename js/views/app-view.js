@@ -72,8 +72,9 @@ var app = app || {};
     },
 
     events: {
-      'click .controls_add-photo': 'onAddImage',
-      'click .controls_add-video': 'onAddVideo'
+      'click .controls_add-image': 'onAddImage',
+      'click .controls_add-video': 'onAddVideo',
+      'click .controls_add-info': 'onAddInfo'
     },
 
     onAddImage: function() {
@@ -99,7 +100,6 @@ var app = app || {};
       boxView.model.set('height', imgView.height());
       
       boxView.setNestedView(imgView);
-      boxView.render();
 
       boxView.enableResize({keepRatio: true});
       boxView.enableDrag();
@@ -128,9 +128,22 @@ var app = app || {};
       boxView.model.set('height', videoView.height());
 
       boxView.setNestedView(videoView);
-      boxView.render();
 
       boxView.enableResize({keepRatio: false});
+      boxView.enableDrag();
+    },
+
+    onAddInfo: function() {
+      var infoView = new app.InfoView();
+      infoView.render();
+
+      var boxView = this.createBoxView();
+      boxView.model.set('height', 'auto');
+
+      boxView.setNestedView(infoView);
+      boxView.updateModel();
+      boxView.render();
+
       boxView.enableDrag();
     }
   });

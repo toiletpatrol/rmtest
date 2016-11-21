@@ -15,9 +15,12 @@ var app = app || {};
     },
 
     render: function() {
+      var h = this.model.get('height');
+      var w = this.model.get('width');
+
       this.$el.html(this.template()).css({
-        height: this.model.get('height') + 'px',
-        width: this.model.get('width') + 'px',
+        height: $.isNumeric(h) ? (h + 'px') : h,
+        width: $.isNumeric(w) ? (w + 'px') : h,
         left: this.model.get('left') + 'px',
         top: this.model.get('top') + 'px',
         'z-index': this.model.get('zIndex')

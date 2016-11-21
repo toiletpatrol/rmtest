@@ -1,0 +1,11 @@
+.info {
+  padding: 20px;
+}
+
+.info > *:first-child {
+  margin-top: 0;
+}
+
+.info > *:last-child {
+  margin-bottom: 0;
+}
