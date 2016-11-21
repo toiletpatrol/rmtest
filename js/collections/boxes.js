@@ -15,7 +15,9 @@
     },
 
     minIndex: function() {
-      var min = 0;
+      if (this.length == 0) { return 0; }
+
+      var min = this.at(0).get('zIndex');
 
       this.each(function(box, index) {
         min = box.get('zIndex') < min ? box.get('zIndex') : min;        
@@ -32,6 +34,15 @@
       });
 
       return max;
+    },
+
+    optimize: function() {
+      var min = this.minIndex();
+
+      this.each(function(box, index) {
+        var z = box.get('zIndex') - min;
+        box.set({'zIndex': z});
+      });
     }
   });
 })();

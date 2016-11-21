@@ -67,6 +67,7 @@ var app = app || {};
       
       if (boxView.model.get('zIndex') < max) {
         boxView.model.set('zIndex', max + 1);
+        this.collection.optimize();
       }
     },
 

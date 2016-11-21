@@ -12,8 +12,6 @@ var app = app || {};
       this.listenTo(this.model, 'change:zIndex', (function() {
         this.$el.css('z-index', this.model.get('zIndex'));
       }).bind(this));
-
-
     },
 
     render: function() {
