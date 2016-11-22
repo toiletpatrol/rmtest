@@ -88,16 +88,18 @@ var app = app || {};
     },
 
     onImageLoaded: function(boxView, src) {
+      var imgModel = new app.ImageModel({
+        src: src
+      });
+
       var imgView = new app.ImageView({
-        model: new app.ImageModel({
-          src: src
-        })
+        model: imgModel
       });
 
       imgView.render();
       
-      boxView.model.set('width', imgView.width());
-      boxView.model.set('height', imgView.height());
+      boxView.model.set('width', imgView.initialWidth);
+      boxView.model.set('height', imgView.initialHeight);
       
       boxView.setNestedView(imgView);
 

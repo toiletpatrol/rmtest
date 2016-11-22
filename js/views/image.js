@@ -8,15 +8,24 @@ var app = app || {};
     className: 'image',
 
     render: function() {
-      return this.$el.attr('src', this.model.get('src')).attr('alt', '');
-    },
+      this.$el.attr('src', this.model.get('src')).attr('alt', '')
 
-    width: function() {
-      return this.el.naturalWidth;
-    },
+      var img = this.el;
+      var w = img.naturalWidth;
+      var h = img.naturalHeight;
+      var max = app.ImageView.NEW_IMAGE_MAX_SIZE;
 
-    height: function() {
-      return this.el.naturalHeight;
+      if (Math.max(w, h) > max) {
+        w = (img.naturalWidth / img.naturalHeight > 1) ? max : (max * img.naturalWidth / img.naturalHeight);
+        h = (img.naturalWidth / img.naturalHeight > 1) ? (max * img.naturalHeight / img.naturalWidth) : max;
+      }
+
+      this.initialWidth = w;
+      this.initialHeight = h;
+
+      return this;
     }
+  }, {
+    NEW_IMAGE_MAX_SIZE: 800
   });
 })();

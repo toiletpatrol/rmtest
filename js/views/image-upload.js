@@ -23,9 +23,7 @@ var app = app || {};
         var reader = new FileReader();
 
         reader.onload = (function (e) {
-          var img = new Image();
-          img.src = e.target.result;
-          this.trigger('imageLoaded', e.target.result, img.naturalWidth, img.naturalHeight);
+          this.trigger('imageLoaded', e.target.result);
         }).bind(this);
 
         reader.readAsDataURL(input.files[0]);
