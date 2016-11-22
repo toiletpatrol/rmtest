@@ -22,14 +22,20 @@ var app = app || {};
     },
 
     calcCanvasHeight: function() {
-      this.$canvas.css({ height: this.collection.bottom() + NEW_BOX_PADDING });
+      this.$canvas.css({ height: this.collection.bottom() + app.AppView.NEW_BOX_PADDING });
     },
 
     createBoxView: function() {
-      var left = this.$el.width() / 2 - DEFAULT_BOX_WIDTH / 2;
-      var top = this.collection.bottom() + NEW_BOX_PADDING;
+      var width = app.AppView.NEW_BOX_WIDTH;
+      var height = app.AppView.NEW_BOX_HEIGHT;
+
+      var left = this.$el.width() / 2 - app.AppView.NEW_BOX_WIDTH / 2;
+      var top = this.collection.bottom() + app.AppView.NEW_BOX_PADDING;
+
 
       var box = new app.BoxModel({
+        width: width,
+        height: height,
         left: left,
         top: top,
         zIndex: this.collection.maxIndex() + 1
@@ -114,6 +120,8 @@ var app = app || {};
       var boxView = this.createBoxView();
       boxView.setNestedView(videoLoadView);
 
+      videoLoadView.focus();
+
       boxView.listenToOnce(videoLoadView, 'thumbLoaded', this.onVideoThumbLoaded.bind(this, boxView));
     },
 
@@ -148,6 +156,10 @@ var app = app || {};
 
       boxView.enableDrag();
     }
+  }, {
+    NEW_BOX_PADDING: 50,
+    NEW_BOX_WIDTH: 324,
+    NEW_BOX_HEIGHT: 200
   });
 
 })();

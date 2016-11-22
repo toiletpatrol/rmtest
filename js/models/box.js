@@ -5,10 +5,9 @@ var app = app || {};
   'use strict';
 
   app.BoxModel = Backbone.Model.extend({
-
     defaults: {
-      width: DEFAULT_BOX_WIDTH,
-      height: DEFAULT_BOX_HEIGHT,
+      width: 0,
+      height: 0,
       left: 0,
       top: 0,
       zIndex: 0

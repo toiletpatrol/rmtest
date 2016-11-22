@@ -9,6 +9,7 @@ var app = app || {};
       height: 0
     }
   }, {
+    VIDEO_URL_TEMPLATE: 'http://img.youtube.com/vi/ID/0.jpg',
     getThumbURL: function(videoURL) {    
       var id = function(url) {
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
@@ -16,7 +17,7 @@ var app = app || {};
         return (match && match[7].length == 11) ? match[7] : false;
       }(videoURL);
 
-      return VIDEO_URL_TEMPLATE.replace('ID', id);
+      return app.VideoModel.VIDEO_URL_TEMPLATE.replace('ID', id);
     }
   });
 })();

@@ -9,13 +9,21 @@ var app = app || {};
     template: _.template($('#video-load-view').html()),
 
     render: function() {
-      return this.$el.html(this.template());
+      this.$el.html(this.template());
+
+      return this;
+    },
+
+    focus: function() {
+      this.$el.find('input').focus();
     },
 
     events: {
       'click button': 'buttonPressed',
       'change input': 'resetErrorState',
-      'keyup input': 'resetErrorState'
+      'keyup input': 'resetErrorState',
+      'keydown input': 'onPressKey',
+      'keydown button': 'onPressKey'
     },
 
     buttonPressed: function() {
@@ -41,6 +49,10 @@ var app = app || {};
 
     resetErrorState: function() {
       this.$el.find('input').removeClass('error');
+    },
+
+    onPressKey: function(e) {
+      if (e.keyCode == 13) { this.buttonPressed() }
     }
   });
 })();
