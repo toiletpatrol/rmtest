@@ -3,6 +3,9 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * VideoView - показывает видео (на самом деле только превью)
+   */
   app.VideoView = Backbone.View.extend({
     tagName:  'img',
     className: 'video-thumb',
@@ -15,10 +18,16 @@ var app = app || {};
       return this;
     },
 
+    /**
+     * Возвращает оригинальную ширину превью
+     */
     width: function() {
       return this.el.naturalWidth;
     },
 
+    /**
+     * Возвращает оригинальную высоту превью
+     */
     height: function() {
       return this.el.naturalHeight;
     }

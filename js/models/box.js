@@ -4,6 +4,9 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * Модель Box
+   */
   app.BoxModel = Backbone.Model.extend({
     defaults: {
       width: 0,
@@ -13,6 +16,9 @@ var app = app || {};
       zIndex: 0
     },
 
+    /**
+     * Возвращает позицию нижней точки box в координатах canvas
+     */
     bottom: function() {
       return this.get('top') + this.get('height');
     }

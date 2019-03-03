@@ -3,9 +3,17 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * AppView - корневая view, содержит всю логику приложения
+   */
   app.AppView = Backbone.View.extend({
     tagName: 'div',
     className: 'app',
+    events: {
+      'click .controls_add-image': 'showImageUploadForm',
+      'click .controls_add-video': 'showVideoUploadForm',
+      'click .controls_add-info': 'showInfoBox'
+    },
 
     initialize: function() {
       this.collection = new app.BoxesCollection();
@@ -21,10 +29,17 @@ var app = app || {};
       this.$el.append($controls).append(this.$canvas);
     },
 
+    /**
+     * canvas это родительский элемент для всех добавляемых блоков,
+     * высота вычисляется по нижней границе последнего элемента
+     */
     calcCanvasHeight: function() {
       this.$canvas.css({ height: this.collection.bottom() + app.AppView.NEW_BOX_PADDING });
     },
 
+    /**
+     * Создает новый box, скроллит документ к нему
+     */
     createBoxView: function() {
       var width = app.AppView.NEW_BOX_WIDTH;
       var height = app.AppView.NEW_BOX_HEIGHT;
@@ -54,12 +69,14 @@ var app = app || {};
       this.$canvas.append(boxView.$el);
       this.calcCanvasHeight();
 
-      // Scroll to new box
       $('html, body').animate({scrollTop: this.collection.bottom()});
 
       return boxView;
     },
 
+    /**
+     * Удаляет box
+     */
     destroyBoxView: function(boxView) {
       boxView.model.destroy();
       boxView.remove();
@@ -67,6 +84,9 @@ var app = app || {};
       this.calcCanvasHeight();
     },
 
+    /**
+     * Поднимает box над другими
+     */
     moveBoxToTop: function(boxView) {
       var max = this.collection.maxIndex();
 
@@ -76,12 +96,9 @@ var app = app || {};
       }
     },
 
-    events: {
-      'click .controls_add-image': 'showImageUploadForm',
-      'click .controls_add-video': 'showVideoUploadForm',
-      'click .controls_add-info': 'onAddInfo'
-    },
-
+    /**
+     * Создает box с формой загрузки картинки
+     */
     showImageUploadForm: function() {
       var uploadView = new app.ImageUploadView();
       uploadView.render();
@@ -93,6 +110,9 @@ var app = app || {};
       boxView.listenToOnce(uploadView, 'imageLoaded', this.onImagePicked.bind(this, boxView));
     },
 
+    /**
+     * Вызывается после того, как пользователь выбрал картинку
+     */
     onImagePicked: function(boxView, src) {
       var imgModel = new app.ImageModel({
         src: src
@@ -117,6 +137,9 @@ var app = app || {};
       });
     },
 
+    /**
+     * Создает box с формой загрузки видео с youtube
+     */
     showVideoUploadForm: function() {
       var videoLoadView = new app.VideoLoadView();
       videoLoadView.render();
@@ -127,9 +150,16 @@ var app = app || {};
 
       videoLoadView.focus();
 
-      boxView.listenToOnce(videoLoadView, 'thumbLoaded', this.onVideoThumbLoaded.bind(this, boxView));
+      boxView.listenToOnce(
+        videoLoadView,
+        'thumbLoaded',
+        this.onVideoThumbLoaded.bind(this, boxView)
+      );
     },
 
+    /**
+     * Вызывается, когда пользователь указал адрес видео и нажал submit
+     */
     onVideoThumbLoaded: function(boxView, src) {
       var videoView = new app.VideoView({
         model: new app.VideoModel({
@@ -149,7 +179,10 @@ var app = app || {};
       boxView.enableDrag();
     },
 
-    onAddInfo: function() {
+    /**
+     * Показывает box с информацией
+     */
+    showInfoBox: function() {
       var infoView = new app.InfoView();
       infoView.render();
 

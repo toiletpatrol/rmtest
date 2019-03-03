@@ -3,6 +3,9 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * Модель Video
+   */
   app.VideoModel = Backbone.Model.extend({
     defaults: {
       width: 0,
@@ -10,7 +13,12 @@ var app = app || {};
     }
   }, {
     VIDEO_URL_TEMPLATE: 'http://img.youtube.com/vi/ID/0.jpg',
-    getThumbURL: function(videoURL) {    
+
+    /**
+     * Статический метод, который по адресу youtube-видео
+     * возвращает адрес превью
+     */
+    getThumbURL: function(videoURL) {
       var id = function(url) {
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
         var match = url.match(regExp);

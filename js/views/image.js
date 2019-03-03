@@ -3,6 +3,9 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * ImageView - загруженное изображение
+   */
   app.ImageView = Backbone.View.extend({
     tagName:  'img',
     className: 'image',
@@ -18,6 +21,10 @@ var app = app || {};
       return this;
     },
 
+    /**
+     * Вызывается на onload картинки. Высчитывает размеры изображения
+     * с учетом NEW_IMAGE_MAX_SIZE
+     */
     onImageLoad: function() {
       var img = this.el;
       var w = img.naturalWidth;
@@ -32,7 +39,6 @@ var app = app || {};
       this.initialWidth = w;
       this.initialHeight = h;
     }
-
   }, {
     NEW_IMAGE_MAX_SIZE: 600
   });

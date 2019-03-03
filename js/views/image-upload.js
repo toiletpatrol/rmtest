@@ -3,19 +3,24 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * ImageUploadView - форма загрузки изображения
+   */
   app.ImageUploadView = Backbone.View.extend({
     tagName:  'div',
     className: 'image-upload',
     template: _.template($('#image-upload-view').html()),
+    events: {
+      'change input': 'onChange'
+    },
 
     render: function() {
       return this.$el.html(this.template());
     },
 
-    events: {
-      'change input': 'onChange'
-    },
-
+    /**
+     * Вызывается если пользователь что-то выбрал в поле file
+     */
     onChange: function(event) {
       var input = event.target;
 

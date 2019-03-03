@@ -3,17 +3,19 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * ResizableView - абстрактная view для инкапсуляции логики ресайза
+   */
   app.ResizableView = Backbone.View.extend({
     tagName:  'div',
     className: 'resizable',
+    events: {
+      'mousedown .resize__ne': 'startResize',
+      'mousedown .resize__nw': 'startResize',
+      'mousedown .resize__se': 'startResize',
+      'mousedown .resize__sw': 'startResize'
+    },
 
-    /**
-     * Both feel like a maintenance nightmare to me because 
-     * a) you have to remember to give each subclass the property, 
-     * b) the code is no longer isolated to one spot, and 
-     * c) you're missing out on the beauty of inheritance.
-     * (c) Eric Hynds
-     */
     constructor: function() {
       this.options = { keepRatio: false };
       Backbone.View.apply(this, arguments);
@@ -21,13 +23,16 @@ var app = app || {};
 
     render: function() { return this.$el; },
 
+    /**
+     * Ресайз за верхний правый край
+     */
     resizeNE: function(event) {
       // Bottom of the box relative to parent
       var b = this.$el.position().top + this.$el.height();
 
       var w = event.pageX - this.$el.offset().left;
       var h = this.$el.offset().top + this.$el.height() - event.pageY;
-      
+
       // Check dimentions
       w = w < 0 ? 0 : w;
       h = h < 0 ? 0 : h;
@@ -51,6 +56,9 @@ var app = app || {};
       });
     },
 
+    /**
+     * Ресайз за верхний левый край
+     */
     resizeNW: function(event) {
       // Bottom of the box relative to parent
       var b = this.$el.position().top + this.$el.height();
@@ -60,7 +68,7 @@ var app = app || {};
 
       var w = this.$el.offset().left + this.$el.width() - event.pageX;
       var h = this.$el.offset().top + this.$el.height() - event.pageY;
-      
+
       // Check dimentions
       w = w < 0 ? 0 : w;
       h = h < 0 ? 0 : h;
@@ -86,10 +94,13 @@ var app = app || {};
       });
     },
 
+    /**
+     * Ресайз за нижний правый край
+     */
     resizeSE: function(event) {
       var w = event.pageX - this.$el.offset().left;
       var h = event.pageY - this.$el.offset().top;
-      
+
       // Check dimentions
       w = w < 0 ? 0 : w;
       h = h < 0 ? 0 : h;
@@ -109,10 +120,13 @@ var app = app || {};
       });
     },
 
+    /**
+     * Ресайз за нижний левый край
+     */
     resizeSW: function(event) {
       var w = this.$el.offset().left - event.pageX + this.$el.width();
       var h = event.pageY - this.$el.offset().top;
-      
+
       // Right side of the box relative to parent
       var r = this.$el.position().left + this.$el.width();
 
@@ -138,6 +152,9 @@ var app = app || {};
       });
     },
 
+    /**
+     * Включает возможность ресайзить блок, добавляет контролы
+     */
     enableResize: function(options) {
       this.options = _.extend(this.options, options);
       this.$el.append('<div class="resize__ne"></div>');
@@ -146,17 +163,17 @@ var app = app || {};
       this.$el.append('<div class="resize__sw"></div>');
     },
 
+    /**
+     * Выключает возможность ресайзить блок, удаляет контролы
+     */
     disableResize: function() {
       this.$el.find('[class^="resize__"]').remove();
     },
 
-    events: {
-      'mousedown .resize__ne': 'startResize',
-      'mousedown .resize__nw': 'startResize',
-      'mousedown .resize__se': 'startResize',
-      'mousedown .resize__sw': 'startResize'
-    },
-
+    /**
+     * Вызывается, когда пользователь нажал на кнопку мыши,
+     * наведя на контрол ресайза
+     */
     startResize: function(event) {
       event.preventDefault();
 
@@ -172,6 +189,9 @@ var app = app || {};
       $('body').on('mousemove', handler.bind(this));
     },
 
+    /**
+     * Вызывается, когда пользователь отпустил контрол ресайза
+     */
     stopResize: function() {
       $('body').off('mousemove');
       this.updateModel();

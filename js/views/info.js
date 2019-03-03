@@ -3,6 +3,9 @@ var app = app || {};
 (function () {
   'use strict';
 
+  /**
+   * InfoView - немного текста о приложении
+   */
   app.InfoView = Backbone.View.extend({
     tagName:  'div',
     className: 'info',
