@@ -6,11 +6,11 @@ var app = app || {};
   app.AppView = Backbone.View.extend({
     tagName: 'div',
     className: 'app',
-    
+
     initialize: function() {
       this.collection = new app.BoxesCollection();
       this.collection.on('change', this.calcCanvasHeight.bind(this));
-      
+
       this.render();
     },
 
@@ -32,7 +32,6 @@ var app = app || {};
       var left = this.$el.width() / 2 - app.AppView.NEW_BOX_WIDTH / 2;
       var top = this.collection.bottom() + app.AppView.NEW_BOX_PADDING;
 
-
       var box = new app.BoxModel({
         width: width,
         height: height,
@@ -40,7 +39,7 @@ var app = app || {};
         top: top,
         zIndex: this.collection.maxIndex() + 1
       });
-      
+
       this.collection.add(box);
 
       var boxView = new app.BoxView({
@@ -64,13 +63,13 @@ var app = app || {};
     destroyBoxView: function(boxView) {
       boxView.model.destroy();
       boxView.remove();
-      
+
       this.calcCanvasHeight();
     },
 
     moveBoxToTop: function(boxView) {
       var max = this.collection.maxIndex();
-      
+
       if (boxView.model.get('zIndex') < max) {
         boxView.model.set('zIndex', max + 1);
         this.collection.optimize();
@@ -78,22 +77,23 @@ var app = app || {};
     },
 
     events: {
-      'click .controls_add-image': 'onAddImage',
-      'click .controls_add-video': 'onAddVideo',
+      'click .controls_add-image': 'showImageUploadForm',
+      'click .controls_add-video': 'showVideoUploadForm',
       'click .controls_add-info': 'onAddInfo'
     },
 
-    onAddImage: function() {
+    showImageUploadForm: function() {
       var uploadView = new app.ImageUploadView();
       uploadView.render();
-      
+
       var boxView = this.createBoxView();
       boxView.setNestedView(uploadView);
+      boxView.render();
 
-      boxView.listenToOnce(uploadView, 'imageLoaded', this.onImageLoaded.bind(this, boxView));
+      boxView.listenToOnce(uploadView, 'imageLoaded', this.onImagePicked.bind(this, boxView));
     },
 
-    onImageLoaded: function(boxView, src) {
+    onImagePicked: function(boxView, src) {
       var imgModel = new app.ImageModel({
         src: src
       });
@@ -102,23 +102,28 @@ var app = app || {};
         model: imgModel
       });
 
-      imgView.render();
-      
-      boxView.model.set('width', imgView.initialWidth);
-      boxView.model.set('height', imgView.initialHeight);
-      
       boxView.setNestedView(imgView);
+      boxView.render();
 
-      boxView.enableResize({keepRatio: true});
-      boxView.enableDrag();
+      imgView.render(() => {
+        boxView.model.set('width', imgView.initialWidth);
+        boxView.model.set('height', imgView.initialHeight);
+        boxView.render();
+
+        console.log(imgView.initialWidth, imgView.initialHeight);
+
+        boxView.enableResize({keepRatio: true});
+        boxView.enableDrag();
+      });
     },
 
-    onAddVideo: function() {
+    showVideoUploadForm: function() {
       var videoLoadView = new app.VideoLoadView();
       videoLoadView.render();
-      
+
       var boxView = this.createBoxView();
       boxView.setNestedView(videoLoadView);
+      boxView.render();
 
       videoLoadView.focus();
 
@@ -138,6 +143,7 @@ var app = app || {};
       boxView.model.set('height', videoView.height());
 
       boxView.setNestedView(videoView);
+      boxView.render();
 
       boxView.enableResize({keepRatio: false});
       boxView.enableDrag();
@@ -151,8 +157,8 @@ var app = app || {};
       boxView.model.set('height', 'auto');
 
       boxView.setNestedView(infoView);
-      boxView.updateModel();
       boxView.render();
+      boxView.updateModel();
 
       boxView.enableDrag();
     }

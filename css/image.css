@@ -3,6 +3,11 @@
   display: block;
 }
 
+.image-test {
+  position: absolute;
+  visibility: hidden;
+}
+
 .image-upload {
   padding: 20px;
   text-align: center;

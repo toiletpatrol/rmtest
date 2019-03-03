@@ -7,9 +7,18 @@ var app = app || {};
     tagName:  'img',
     className: 'image',
 
-    render: function() {
-      this.$el.attr('src', this.model.get('src')).attr('alt', '')
+    render: function(callback) {
+      this.$el.attr('src', this.model.get('src')).attr('alt', '');
 
+      this.el.onload = function() {
+        this.onImageLoad();
+        callback();
+      }.bind(this);
+
+      return this;
+    },
+
+    onImageLoad: function() {
       var img = this.el;
       var w = img.naturalWidth;
       var h = img.naturalHeight;
@@ -22,10 +31,9 @@ var app = app || {};
 
       this.initialWidth = w;
       this.initialHeight = h;
-
-      return this;
     }
+
   }, {
-    NEW_IMAGE_MAX_SIZE: 800
+    NEW_IMAGE_MAX_SIZE: 600
   });
 })();

@@ -45,11 +45,10 @@ var app = app || {};
     setNestedView: function(view) {
       this.nestedView && this.nestedView.remove();
       this.nestedView = view;
-      this.render();
     },
 
     enableDrag: function() {
-      this.$el.draggable({ 
+      this.$el.draggable({
         cancel: app.ResizableView.commonControlSelector,
         stop: this.updateModel.bind(this),
         start: (function() { this.trigger('dragStart'); }).bind(this)

@@ -1,6 +1,22 @@
+# Запуск
+
+Установить http-server
+
+```
+$ npm install http-server -g
+```
+
+После этого запустить сервер из папки репы
+
+```
+$ http-server ./
+```
+
+# Живое демо
+
 [https://toiletpatrol.github.io/rmtest/](https://toiletpatrol.github.io/rmtest/)
 
-Todo list:
+# Todo list:
 
 - [x] Исправить неправильные пропорции превью видео при загрузке
 - [x] Оптимизировать переключение z-index
